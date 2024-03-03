@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>EnteriesWindow</class>
+    <widget class="QMainWindow" name="EnteriesWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>1068</width>
+                <height>427</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>لیست تردد خودروهای شهرک</string>
+        </property>
+        <widget class="QWidget" name="centralwidget">
+            <widget class="QTableWidget" name="tableWidget">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>10</y>
+                        <width>1051</width>
+                        <height>411</height>
+                    </rect>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                    </font>
+                </property>
+                <property name="layoutDirection">
+                    <enum>Qt::RightToLeft</enum>
+                </property>
+                <property name="alternatingRowColors">
+                    <bool>false</bool>
+                </property>
+                <property name="rowCount">
+                    <number>15</number>
+                </property>
+                <property name="columnCount">
+                    <number>3</number>
+                </property>
+                <attribute name="horizontalHeaderCascadingSectionResizes">
+                    <bool>false</bool>
+                </attribute>
+                <attribute name="verticalHeaderCascadingSectionResizes">
+                    <bool>false</bool>
+                </attribute>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <column/>
+                <column/>
+                <column/>
+            </widget>
+            <widget class="QPushButton" name="pushButton">
+                <property name="geometry">
+                    <rect>
+                        <x>760</x>
+                        <y>430</y>
+                        <width>199</width>
+                        <height>32</height>
+                    </rect>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                    </font>
+                </property>
+                <property name="text">
+                    <string>ثبت تردد جدید</string>
+                </property>
+            </widget>
+        </widget>
+    </widget>
+    <resources/>
+    <connections/>
+</ui>

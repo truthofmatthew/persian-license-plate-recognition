@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>EnteriesWindow</class>
+    <widget class="QMainWindow" name="EnteriesWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>629</width>
+                <height>480</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>لیست تردد خودروهای شهرک</string>
+        </property>
+        <widget class="QWidget" name="centralwidget">
+            <widget class="QTableWidget" name="tableWidget">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>10</y>
+                        <width>611</width>
+                        <height>341</height>
+                    </rect>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                    </font>
+                </property>
+                <property name="layoutDirection">
+                    <enum>Qt::RightToLeft</enum>
+                </property>
+                <property name="alternatingRowColors">
+                    <bool>false</bool>
+                </property>
+                <property name="rowCount">
+                    <number>15</number>
+                </property>
+                <property name="columnCount">
+                    <number>3</number>
+                </property>
+                <attribute name="horizontalHeaderCascadingSectionResizes">
+                    <bool>false</bool>
+                </attribute>
+                <attribute name="verticalHeaderCascadingSectionResizes">
+                    <bool>false</bool>
+                </attribute>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <column/>
+                <column/>
+                <column/>
+            </widget>
+            <widget class="QWidget" name="layoutWidget">
+                <property name="geometry">
+                    <rect>
+                        <x>420</x>
+                        <y>440</y>
+                        <width>201</width>
+                        <height>34</height>
+                    </rect>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout">
+                    <item>
+                        <widget class="QPushButton" name="pushButton_2">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                </font>
+                            </property>
+                            <property name="text">
+                                <string>حذف تردد</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QPushButton" name="pushButton">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                </font>
+                            </property>
+                            <property name="text">
+                                <string>ثبت تردد جدید</string>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </widget>
+            <widget class="QWidget" name="layoutWidget">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>391</y>
+                        <width>611</width>
+                        <height>72</height>
+                    </rect>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                    <item>
+                        <widget class="QTextEdit" name="textEdit_3">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                </font>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QTextEdit" name="textEdit_2">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                </font>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QTextEdit" name="textEdit">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                </font>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </widget>
+            <widget class="QWidget" name="layoutWidget">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>360</y>
+                        <width>611</width>
+                        <height>26</height>
+                    </rect>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout_3">
+                    <item>
+                        <widget class="QLabel" name="label_3">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                </font>
+                            </property>
+                            <property name="text">
+                                <string>تاریخ</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="label">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                </font>
+                            </property>
+                            <property name="text">
+                                <string>ساعت</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="label_2">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                </font>
+                            </property>
+                            <property name="text">
+                                <string>پلاک</string>
+                            </property>
+                            <property name="scaledContents">
+                                <bool>false</bool>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </widget>
+        </widget>
+    </widget>
+    <resources/>
+    <connections/>
+</ui>

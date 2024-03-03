@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>UsersWindow</class>
+    <widget class="QMainWindow" name="UsersWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>1041</width>
+                <height>533</height>
+            </rect>
+        </property>
+        <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+            </sizepolicy>
+        </property>
+        <property name="windowTitle">
+            <string>لیست ساکنین شهرک</string>
+        </property>
+        <property name="layoutDirection">
+            <enum>Qt::RightToLeft</enum>
+        </property>
+        <widget class="QWidget" name="centralwidget">
+            <widget class="QTextEdit" name="searchTextBox">
+                <property name="geometry">
+                    <rect>
+                        <x>580</x>
+                        <y>480</y>
+                        <width>381</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                    </font>
+                </property>
+                <property name="layoutDirection">
+                    <enum>Qt::RightToLeft</enum>
+                </property>
+                <property name="inputMethodHints">
+                    <set>Qt::ImhNone</set>
+                </property>
+                <property name="placeholderText">
+                    <string/>
+                </property>
+            </widget>
+            <widget class="QPushButton" name="addResidentButton">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>480</y>
+                        <width>171</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                    </font>
+                </property>
+                <property name="text">
+                    <string>ثبت ساکن جدید</string>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label_9">
+                <property name="geometry">
+                    <rect>
+                        <x>960</x>
+                        <y>480</y>
+                        <width>71</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                    </font>
+                </property>
+                <property name="text">
+                    <string>جستجو</string>
+                </property>
+                <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                </property>
+            </widget>
+            <widget class="QWidget" name="layoutWidget">
+                <property name="geometry">
+                    <rect>
+                        <x>310</x>
+                        <y>550</y>
+                        <width>251</width>
+                        <height>26</height>
+                    </rect>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout">
+                    <item>
+                        <widget class="QRadioButton" name="radioLName">
+                            <property name="text">
+                                <string>نام خانوادگی</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QRadioButton" name="radioPlateNum">
+                            <property name="text">
+                                <string>پلاک</string>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </widget>
+            <widget class="QTableWidget" name="tableWidget">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>10</y>
+                        <width>1011</width>
+                        <height>461</height>
+                    </rect>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                    </font>
+                </property>
+                <property name="layoutDirection">
+                    <enum>Qt::RightToLeft</enum>
+                </property>
+                <property name="alternatingRowColors">
+                    <bool>false</bool>
+                </property>
+                <property name="rowCount">
+                    <number>15</number>
+                </property>
+                <property name="columnCount">
+                    <number>3</number>
+                </property>
+                <attribute name="horizontalHeaderCascadingSectionResizes">
+                    <bool>false</bool>
+                </attribute>
+                <attribute name="verticalHeaderCascadingSectionResizes">
+                    <bool>false</bool>
+                </attribute>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <column/>
+                <column/>
+                <column/>
+            </widget>
+        </widget>
+    </widget>
+    <resources/>
+    <connections/>
+</ui>

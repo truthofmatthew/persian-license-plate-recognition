@@ -1,0 +1,3 @@
+ultralytics~=8.1.19
+pillow~=10.2.0
+split-folders

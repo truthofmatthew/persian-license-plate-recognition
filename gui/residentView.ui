@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>UsersWindow</class>
+    <widget class="QMainWindow" name="UsersWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>409</width>
+                <height>389</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>نمایش اطلاعات ساکن</string>
+        </property>
+        <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+        </property>
+        <widget class="QWidget" name="centralwidget">
+            <widget class="QWidget" name="layoutWidget">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>10</y>
+                        <width>261</width>
+                        <height>371</height>
+                    </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_2">
+                    <item>
+                        <widget class="QLabel" name="labelFname">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                </font>
+                            </property>
+                            <property name="layoutDirection">
+                                <enum>Qt::RightToLeft</enum>
+                            </property>
+                            <property name="text">
+                                <string>نام</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="labelLname">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                </font>
+                            </property>
+                            <property name="text">
+                                <string>نام خانوادگی</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="labelBuilding">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                </font>
+                            </property>
+                            <property name="text">
+                                <string>ساختمان</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="labelBlock">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                </font>
+                            </property>
+                            <property name="layoutDirection">
+                                <enum>Qt::LeftToRight</enum>
+                            </property>
+                            <property name="text">
+                                <string>بلوک</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="labelNum">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                </font>
+                            </property>
+                            <property name="text">
+                                <string>پلاک</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="labelCarModel">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                </font>
+                            </property>
+                            <property name="text">
+                                <string>نوع خودرو</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="labelPlateNum">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                </font>
+                            </property>
+                            <property name="text">
+                                <string>پلاک خودرو</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="labelStatus">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                </font>
+                            </property>
+                            <property name="text">
+                                <string>وضعیت تردد</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </widget>
+            <widget class="QWidget" name="layoutWidget">
+                <property name="geometry">
+                    <rect>
+                        <x>310</x>
+                        <y>10</y>
+                        <width>91</width>
+                        <height>371</height>
+                    </rect>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout">
+                    <item>
+                        <widget class="QLabel" name="label_4">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                    <pointsize>12</pointsize>
+                                    <weight>75</weight>
+                                    <bold>true</bold>
+                                </font>
+                            </property>
+                            <property name="layoutDirection">
+                                <enum>Qt::LeftToRight</enum>
+                            </property>
+                            <property name="text">
+                                <string>نام</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="Line" name="line_2">
+                            <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="label_10">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                    <pointsize>12</pointsize>
+                                    <weight>75</weight>
+                                    <bold>true</bold>
+                                </font>
+                            </property>
+                            <property name="layoutDirection">
+                                <enum>Qt::LeftToRight</enum>
+                            </property>
+                            <property name="text">
+                                <string>نام خانوادگی</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="Line" name="line_3">
+                            <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="label_2">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                    <pointsize>12</pointsize>
+                                    <weight>75</weight>
+                                    <bold>true</bold>
+                                </font>
+                            </property>
+                            <property name="layoutDirection">
+                                <enum>Qt::LeftToRight</enum>
+                            </property>
+                            <property name="text">
+                                <string>ساختمان</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="Line" name="line_4">
+                            <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="label_8">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                    <pointsize>12</pointsize>
+                                    <weight>75</weight>
+                                    <bold>true</bold>
+                                </font>
+                            </property>
+                            <property name="layoutDirection">
+                                <enum>Qt::LeftToRight</enum>
+                            </property>
+                            <property name="text">
+                                <string>بلوک</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="Line" name="line_5">
+                            <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="label_7">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                    <pointsize>12</pointsize>
+                                    <weight>75</weight>
+                                    <bold>true</bold>
+                                </font>
+                            </property>
+                            <property name="layoutDirection">
+                                <enum>Qt::LeftToRight</enum>
+                            </property>
+                            <property name="text">
+                                <string>پلاک</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="Line" name="line_6">
+                            <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="label_6">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                    <pointsize>12</pointsize>
+                                    <weight>75</weight>
+                                    <bold>true</bold>
+                                </font>
+                            </property>
+                            <property name="layoutDirection">
+                                <enum>Qt::LeftToRight</enum>
+                            </property>
+                            <property name="text">
+                                <string>نوع خودرو</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="Line" name="line_7">
+                            <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="label_5">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                    <pointsize>12</pointsize>
+                                    <weight>75</weight>
+                                    <bold>true</bold>
+                                </font>
+                            </property>
+                            <property name="layoutDirection">
+                                <enum>Qt::LeftToRight</enum>
+                            </property>
+                            <property name="text">
+                                <string>پلاک خودرو</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="Line" name="line_8">
+                            <property name="orientation">
+                                <enum>Qt::Horizontal</enum>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLabel" name="label_3">
+                            <property name="font">
+                                <font>
+                                    <family>B Yekan</family>
+                                    <pointsize>12</pointsize>
+                                    <weight>75</weight>
+                                    <bold>true</bold>
+                                </font>
+                            </property>
+                            <property name="layoutDirection">
+                                <enum>Qt::LeftToRight</enum>
+                            </property>
+                            <property name="text">
+                                <string>وضعیت تردد</string>
+                            </property>
+                            <property name="alignment">
+                                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </widget>
+            <widget class="Line" name="line">
+                <property name="geometry">
+                    <rect>
+                        <x>280</x>
+                        <y>10</y>
+                        <width>20</width>
+                        <height>371</height>
+                    </rect>
+                </property>
+                <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                </property>
+            </widget>
+        </widget>
+    </widget>
+    <resources/>
+    <connections/>
+</ui>

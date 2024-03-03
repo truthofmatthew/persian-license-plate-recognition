@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>MainWindow</class>
+    <widget class="QMainWindow" name="MainWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>909</width>
+                <height>751</height>
+            </rect>
+        </property>
+        <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+            </sizepolicy>
+        </property>
+        <property name="windowTitle">
+            <string>SmartResidentGuard</string>
+        </property>
+        <widget class="QWidget" name="centralwidget">
+            <widget class="QLabel" name="mainView">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>60</y>
+                        <width>580</width>
+                        <height>326</height>
+                    </rect>
+                </property>
+                <property name="frameShape">
+                    <enum>QFrame::Box</enum>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label">
+                <property name="geometry">
+                    <rect>
+                        <x>320</x>
+                        <y>10</y>
+                        <width>261</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                        <pointsize>17</pointsize>
+                    </font>
+                </property>
+                <property name="text">
+                    <string>SmartResidentGuard</string>
+                </property>
+                <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                </property>
+            </widget>
+            <widget class="QWidget" name="layoutWidget">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>690</y>
+                        <width>891</width>
+                        <height>58</height>
+                    </rect>
+                </property>
+                <layout class="QHBoxLayout" name="horizontalLayout">
+                    <item>
+                        <widget class="QPushButton" name="settingsButton">
+                            <property name="sizePolicy">
+                                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="toolTip">
+                                <string>تنظیمات</string>
+                            </property>
+                            <property name="text">
+                                <string/>
+                            </property>
+                            <property name="icon">
+                                <iconset>
+                                    <normaloff>../icons/icons8-add-user-male-80.png</normaloff>
+                                    ../icons/icons8-add-user-male-80.png
+                                </iconset>
+                            </property>
+                            <property name="iconSize">
+                                <size>
+                                    <width>40</width>
+                                    <height>40</height>
+                                </size>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QPushButton" name="usersListButton">
+                            <property name="sizePolicy">
+                                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="toolTip">
+                                <string>لیست ساکنین</string>
+                            </property>
+                            <property name="text">
+                                <string/>
+                            </property>
+                            <property name="icon">
+                                <iconset>
+                                    <normaloff>../icons/icons8-add-user-male-80.png</normaloff>
+                                    ../icons/icons8-add-user-male-80.png
+                                </iconset>
+                            </property>
+                            <property name="iconSize">
+                                <size>
+                                    <width>40</width>
+                                    <height>40</height>
+                                </size>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QPushButton" name="enteriesListButton">
+                            <property name="sizePolicy">
+                                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="toolTip">
+                                <string>لیست تردد</string>
+                            </property>
+                            <property name="text">
+                                <string/>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QPushButton" name="stopButton">
+                            <property name="sizePolicy">
+                                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="toolTip">
+                                <string>توقف</string>
+                            </property>
+                            <property name="text">
+                                <string/>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QPushButton" name="startButton">
+                            <property name="sizePolicy">
+                                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                                    <horstretch>0</horstretch>
+                                    <verstretch>0</verstretch>
+                                </sizepolicy>
+                            </property>
+                            <property name="toolTip">
+                                <string>شروع</string>
+                            </property>
+                            <property name="text">
+                                <string/>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </widget>
+            <widget class="QLabel" name="plate_permission_view">
+                <property name="geometry">
+                    <rect>
+                        <x>600</x>
+                        <y>320</y>
+                        <width>300</width>
+                        <height>66</height>
+                    </rect>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                    <size>
+                        <width>300</width>
+                        <height>66</height>
+                    </size>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                        <pointsize>18</pointsize>
+                    </font>
+                </property>
+                <property name="acceptDrops">
+                    <bool>false</bool>
+                </property>
+                <property name="autoFillBackground">
+                    <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">background-color: rgb(51, 209, 122);</string>
+                </property>
+                <property name="frameShape">
+                    <enum>QFrame::Box</enum>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+                <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                </property>
+            </widget>
+            <widget class="QLabel" name="plate_owner_name_view">
+                <property name="geometry">
+                    <rect>
+                        <x>600</x>
+                        <y>240</y>
+                        <width>300</width>
+                        <height>66</height>
+                    </rect>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                    <size>
+                        <width>300</width>
+                        <height>66</height>
+                    </size>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                        <pointsize>18</pointsize>
+                    </font>
+                </property>
+                <property name="frameShape">
+                    <enum>QFrame::Box</enum>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+                <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                </property>
+            </widget>
+            <widget class="QLabel" name="plate_view">
+                <property name="geometry">
+                    <rect>
+                        <x>600</x>
+                        <y>60</y>
+                        <width>300</width>
+                        <height>66</height>
+                    </rect>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                    <size>
+                        <width>300</width>
+                        <height>66</height>
+                    </size>
+                </property>
+                <property name="frameShape">
+                    <enum>QFrame::Box</enum>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+                <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                </property>
+            </widget>
+            <widget class="QLabel" name="plateTextView">
+                <property name="enabled">
+                    <bool>true</bool>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>600</x>
+                        <y>140</y>
+                        <width>300</width>
+                        <height>62</height>
+                    </rect>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                    <size>
+                        <width>300</width>
+                        <height>62</height>
+                    </size>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                        <pointsize>29</pointsize>
+                        <kerning>true</kerning>
+                    </font>
+                </property>
+                <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="autoFillBackground">
+                    <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true"/>
+                </property>
+                <property name="frameShape">
+                    <enum>QFrame::Box</enum>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+                <property name="textFormat">
+                    <enum>Qt::PlainText</enum>
+                </property>
+                <property name="scaledContents">
+                    <bool>false</bool>
+                </property>
+                <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                </property>
+            </widget>
+            <widget class="QTableWidget" name="tableWidget">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>400</y>
+                        <width>891</width>
+                        <height>281</height>
+                    </rect>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                    </font>
+                </property>
+                <property name="layoutDirection">
+                    <enum>Qt::RightToLeft</enum>
+                </property>
+                <property name="alternatingRowColors">
+                    <bool>false</bool>
+                </property>
+                <property name="rowCount">
+                    <number>15</number>
+                </property>
+                <property name="columnCount">
+                    <number>3</number>
+                </property>
+                <attribute name="horizontalHeaderCascadingSectionResizes">
+                    <bool>false</bool>
+                </attribute>
+                <attribute name="verticalHeaderCascadingSectionResizes">
+                    <bool>false</bool>
+                </attribute>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <row/>
+                <column/>
+                <column/>
+                <column/>
+            </widget>
+            <widget class="QLabel" name="plate_text_ir">
+                <property name="enabled">
+                    <bool>true</bool>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>830</x>
+                        <y>140</y>
+                        <width>71</width>
+                        <height>62</height>
+                    </rect>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                    <size>
+                        <width>300</width>
+                        <height>62</height>
+                    </size>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                        <pointsize>23</pointsize>
+                        <kerning>true</kerning>
+                    </font>
+                </property>
+                <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="autoFillBackground">
+                    <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">letter-spacing: 3px;
+                        padding-bottom: 3%;
+                    </string>
+                </property>
+                <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+                <property name="textFormat">
+                    <enum>Qt::PlainText</enum>
+                </property>
+                <property name="scaledContents">
+                    <bool>false</bool>
+                </property>
+                <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                </property>
+            </widget>
+            <widget class="QLabel" name="plate_text_num">
+                <property name="enabled">
+                    <bool>true</bool>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>630</x>
+                        <y>140</y>
+                        <width>201</width>
+                        <height>62</height>
+                    </rect>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                    <size>
+                        <width>300</width>
+                        <height>62</height>
+                    </size>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                        <pointsize>28</pointsize>
+                        <kerning>true</kerning>
+                    </font>
+                </property>
+                <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="autoFillBackground">
+                    <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">letter-spacing: 3px;
+                        padding-bottom: 5%;
+                    </string>
+                </property>
+                <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+                <property name="textFormat">
+                    <enum>Qt::PlainText</enum>
+                </property>
+                <property name="scaledContents">
+                    <bool>false</bool>
+                </property>
+                <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label_2">
+                <property name="geometry">
+                    <rect>
+                        <x>610</x>
+                        <y>10</y>
+                        <width>31</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                        <pointsize>17</pointsize>
+                    </font>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+                <property name="pixmap">
+                    <pixmap>../icons/65th_xs.png</pixmap>
+                </property>
+                <property name="scaledContents">
+                    <bool>true</bool>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label_3">
+                <property name="geometry">
+                    <rect>
+                        <x>270</x>
+                        <y>10</y>
+                        <width>31</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                        <pointsize>17</pointsize>
+                    </font>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+                <property name="pixmap">
+                    <pixmap>../icons/65th_xs.png</pixmap>
+                </property>
+                <property name="scaledContents">
+                    <bool>true</bool>
+                </property>
+            </widget>
+            <widget class="QGraphicsView" name="gv">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>60</y>
+                        <width>581</width>
+                        <height>331</height>
+                    </rect>
+                </property>
+                <property name="frameShape">
+                    <enum>QFrame::Panel</enum>
+                </property>
+                <property name="frameShadow">
+                    <enum>QFrame::Plain</enum>
+                </property>
+            </widget>
+        </widget>
+    </widget>
+    <tabstops>
+        <tabstop>startButton</tabstop>
+        <tabstop>stopButton</tabstop>
+        <tabstop>enteriesListButton</tabstop>
+        <tabstop>usersListButton</tabstop>
+        <tabstop>settingsButton</tabstop>
+        <tabstop>tableWidget</tabstop>
+    </tabstops>
+    <resources/>
+    <connections/>
+</ui>

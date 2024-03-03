@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>MainWindow</class>
+    <widget class="QMainWindow" name="MainWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>874</width>
+                <height>566</height>
+            </rect>
+        </property>
+        <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+            </sizepolicy>
+        </property>
+        <property name="windowTitle">
+            <string>تنظیمات</string>
+        </property>
+        <widget class="QWidget" name="centralwidget">
+            <widget class="QLabel" name="plateTextIR">
+                <property name="enabled">
+                    <bool>true</bool>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>830</x>
+                        <y>140</y>
+                        <width>71</width>
+                        <height>62</height>
+                    </rect>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                    <size>
+                        <width>300</width>
+                        <height>62</height>
+                    </size>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                        <pointsize>23</pointsize>
+                        <kerning>true</kerning>
+                    </font>
+                </property>
+                <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="autoFillBackground">
+                    <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">letter-spacing: 3px;
+                        padding-bottom: 3%;
+                    </string>
+                </property>
+                <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+                <property name="textFormat">
+                    <enum>Qt::PlainText</enum>
+                </property>
+                <property name="scaledContents">
+                    <bool>false</bool>
+                </property>
+                <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                </property>
+            </widget>
+            <widget class="QPushButton" name="pushButton">
+                <property name="geometry">
+                    <rect>
+                        <x>560</x>
+                        <y>100</y>
+                        <width>89</width>
+                        <height>25</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>PushButton</string>
+                </property>
+            </widget>
+            <widget class="QTextEdit" name="textEdit">
+                <property name="geometry">
+                    <rect>
+                        <x>250</x>
+                        <y>90</y>
+                        <width>251</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QPushButton" name="pushButton_2">
+                <property name="geometry">
+                    <rect>
+                        <x>610</x>
+                        <y>160</y>
+                        <width>89</width>
+                        <height>25</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>PushButton</string>
+                </property>
+            </widget>
+            <widget class="QComboBox" name="comboBox">
+                <property name="geometry">
+                    <rect>
+                        <x>400</x>
+                        <y>160</y>
+                        <width>101</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QTextEdit" name="textEdit_2">
+                <property name="geometry">
+                    <rect>
+                        <x>140</x>
+                        <y>140</y>
+                        <width>151</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QTextEdit" name="textEdit_3">
+                <property name="geometry">
+                    <rect>
+                        <x>150</x>
+                        <y>200</y>
+                        <width>171</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QTimeEdit" name="timeEdit">
+                <property name="geometry">
+                    <rect>
+                        <x>60</x>
+                        <y>40</y>
+                        <width>118</width>
+                        <height>26</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QDateEdit" name="dateEdit">
+                <property name="geometry">
+                    <rect>
+                        <x>60</x>
+                        <y>80</y>
+                        <width>110</width>
+                        <height>26</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QSlider" name="horizontalSlider">
+                <property name="geometry">
+                    <rect>
+                        <x>40</x>
+                        <y>280</y>
+                        <width>231</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                </property>
+            </widget>
+            <widget class="QLCDNumber" name="lcdNumber">
+                <property name="geometry">
+                    <rect>
+                        <x>360</x>
+                        <y>230</y>
+                        <width>181</width>
+                        <height>61</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QProgressBar" name="progressBar">
+                <property name="geometry">
+                    <rect>
+                        <x>180</x>
+                        <y>330</y>
+                        <width>118</width>
+                        <height>23</height>
+                    </rect>
+                </property>
+                <property name="value">
+                    <number>24</number>
+                </property>
+            </widget>
+            <widget class="QCalendarWidget" name="calendarWidget">
+                <property name="geometry">
+                    <rect>
+                        <x>330</x>
+                        <y>320</y>
+                        <width>401</width>
+                        <height>231</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QGraphicsView" name="gv">
+                <property name="geometry">
+                    <rect>
+                        <x>50</x>
+                        <y>391</y>
+                        <width>221</width>
+                        <height>151</height>
+                    </rect>
+                </property>
+            </widget>
+        </widget>
+    </widget>
+    <resources/>
+    <connections/>
+</ui>

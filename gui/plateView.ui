@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>MainWindow</class>
+    <widget class="QMainWindow" name="MainWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>704</width>
+                <height>262</height>
+            </rect>
+        </property>
+        <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+            </sizepolicy>
+        </property>
+        <property name="windowTitle">
+            <string>تصویر پلاک</string>
+        </property>
+        <widget class="QWidget" name="centralwidget">
+            <widget class="QLabel" name="plateView">
+                <property name="geometry">
+                    <rect>
+                        <x>50</x>
+                        <y>30</y>
+                        <width>600</width>
+                        <height>132</height>
+                    </rect>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                    <size>
+                        <width>600</width>
+                        <height>132</height>
+                    </size>
+                </property>
+                <property name="frameShape">
+                    <enum>QFrame::Box</enum>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+                <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                </property>
+            </widget>
+            <widget class="QLabel" name="plateTextView">
+                <property name="enabled">
+                    <bool>true</bool>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>210</x>
+                        <y>180</y>
+                        <width>300</width>
+                        <height>62</height>
+                    </rect>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                    <size>
+                        <width>300</width>
+                        <height>62</height>
+                    </size>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                        <pointsize>29</pointsize>
+                        <kerning>true</kerning>
+                    </font>
+                </property>
+                <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="autoFillBackground">
+                    <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">border-image:
+                        url(/media/mt/Files/vs-code/Final/ShahrakAmir/resource/img/template-base.png) 0 0 0 0 stretch
+                        stretch;
+                        letter-spacing: 3px;
+
+                        padding-right: 5%;
+                        padding-left: 5%;
+
+                        padding-bottom: 5%;
+                        clear: both;
+                    </string>
+                </property>
+                <property name="frameShape">
+                    <enum>QFrame::Box</enum>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+                <property name="textFormat">
+                    <enum>Qt::PlainText</enum>
+                </property>
+                <property name="scaledContents">
+                    <bool>false</bool>
+                </property>
+                <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                </property>
+            </widget>
+            <widget class="QLabel" name="plateTextIR">
+                <property name="enabled">
+                    <bool>true</bool>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>730</x>
+                        <y>190</y>
+                        <width>71</width>
+                        <height>62</height>
+                    </rect>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                    <size>
+                        <width>300</width>
+                        <height>62</height>
+                    </size>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                        <pointsize>23</pointsize>
+                        <kerning>true</kerning>
+                    </font>
+                </property>
+                <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="autoFillBackground">
+                    <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">letter-spacing: 3px;
+                        padding-bottom: 3%;
+                    </string>
+                </property>
+                <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+                <property name="textFormat">
+                    <enum>Qt::PlainText</enum>
+                </property>
+                <property name="scaledContents">
+                    <bool>false</bool>
+                </property>
+                <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                </property>
+            </widget>
+            <widget class="QLabel" name="plateTextNum">
+                <property name="enabled">
+                    <bool>true</bool>
+                </property>
+                <property name="geometry">
+                    <rect>
+                        <x>240</x>
+                        <y>180</y>
+                        <width>201</width>
+                        <height>62</height>
+                    </rect>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                    <size>
+                        <width>300</width>
+                        <height>62</height>
+                    </size>
+                </property>
+                <property name="font">
+                    <font>
+                        <family>B Yekan</family>
+                        <pointsize>28</pointsize>
+                        <kerning>true</kerning>
+                    </font>
+                </property>
+                <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                </property>
+                <property name="autoFillBackground">
+                    <bool>false</bool>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">letter-spacing: 3px;
+                        padding-bottom: 5%;
+                    </string>
+                </property>
+                <property name="frameShape">
+                    <enum>QFrame::NoFrame</enum>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+                <property name="textFormat">
+                    <enum>Qt::PlainText</enum>
+                </property>
+                <property name="scaledContents">
+                    <bool>false</bool>
+                </property>
+                <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                </property>
+            </widget>
+        </widget>
+    </widget>
+    <resources/>
+    <connections/>
+</ui>
