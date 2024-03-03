@@ -130,35 +130,58 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def refresh_table(self, plateNum=''):
 
+        # Get all entries from the database with a limit of 10 and where the plate number is like the given plate number
         plateNum = dbGetAllEntries(limit=10, whereLike=plateNum)
+        # Set the number of rows in the table widget to the length of the plate number list
         self.tableWidget.setRowCount(len(plateNum))
+        # Iterate through the plate number list
         for index, entry in enumerate(plateNum):
+            # Get the plate number in English
             plateNum2 = join_elements(
                 convert_persian_to_english(split_string_language_specific(entry.getPlateNumber(display=True))))
+            # Get the plate status from the database
             statusNum = db_get_plate_status(plateNum2)
+            # Set the status of the entry in the table widget
             self.tableWidget.setItem(index, 0, QTableWidgetItem(entry.getStatus(statusNum=statusNum)))
+            # Set the plate number of the entry in the table widget
             self.tableWidget.setItem(index, 1, QTableWidgetItem(entry.getPlateNumber(display=True)))
+            # Set the time of the entry in the table widget
             self.tableWidget.setItem(index, 2, QTableWidgetItem(entry.getTime()))
+            # Set the date of the entry in the table widget
             self.tableWidget.setItem(index, 3, QTableWidgetItem(entry.getDate()))
 
+            # Load the plate picture
             Image = QImage()
             Image.load(entry.getPlatePic())
+            # Create a QcroppedPlate from the Image
             QcroppedPlate = QPixmap.fromImage(Image)
 
+            # Create an image label from the QcroppedPlate
             item = create_image_label(QcroppedPlate)
+            # Set a mouse press event to on_label_double_click
             item.mousePressEvent = functools.partial(on_label_double_click, source_object=item)
+            # Set the cell widget of the table widget to the image label
             self.tableWidget.setCellWidget(index, 4, item)
+            # Set the row height of the table widget to 44
             self.tableWidget.setRowHeight(index, 44)
 
+            # Create an info button
             infoBtnItem = create_styled_button('info')
+            # Set a mouse press event to on_info_button_clicked
             infoBtnItem.mousePressEvent = functools.partial(self.on_info_button_clicked, source_object=infoBtnItem)
+            # Set the cell widget of the table widget to the info button
             self.tableWidget.setCellWidget(index, 5, infoBtnItem)
 
+            # Create an add button
             addBtnItem = create_styled_button('add')
+            # Set a mouse press event to on_add_button_clicked
             addBtnItem.mousePressEvent = functools.partial(self.on_add_button_clicked, source_object=addBtnItem)
+            # Set the cell widget of the table widget to the add button
             self.tableWidget.setCellWidget(index, 6, addBtnItem)
+            # Disable the add button
             addBtnItem.setEnabled(False)
 
+            # If the status is 2, enable the add button and disable the info button
             if statusNum == 2:
                 addBtnItem.setEnabled(True)
                 infoBtnItem.setEnabled(False)
@@ -206,21 +229,27 @@ class MainWindow(QtWidgets.QMainWindow):
     def on_plate_data_update(self, cropped_plate: QImage, plate_text: str, char_conf_avg: float,
                              plate_conf_avg: float) -> None:
 
+        # Check if the plate text is 8 characters long and the character confidence is above 70
         if len(plate_text) == 8 and char_conf_avg >= 70:
+            # Set the plate view to display the cropped plate
             self.plate_view.setScaledContents(True)
             self.plate_view.setPixmap(QPixmap.fromImage(cropped_plate))
 
+            # Convert the plate text to Persian and set the text for the plate number and plate text in Persian
             plt_text_num = convert_english_to_persian(plate_text[:6], display=True)
             plt_text_ir = convert_english_to_persian(plate_text[6:], display=True)
             self.plate_text_num.setText(plt_text_num)
             self.plate_text_ir.setText(plt_text_ir)
 
+            # Clean the plate text and get the status from the database
             plate_text_clean = clean_license_plate_text(plate_text)
             status = db_get_plate_status(plate_text_clean)
 
+            # Update the plate owner and permission
             self.update_plate_owner(db_get_plate_owner_name(plate_text_clean))
             self.update_plate_permission(status)
 
+            # Add the plate text, character confidence, plate confidence, cropped plate, and status to the database
             db_entries_time(plate_text_clean, char_conf_avg, plate_conf_avg, cropped_plate, status)
             self.Worker2.start()
 
