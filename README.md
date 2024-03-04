@@ -96,10 +96,17 @@ Handles the regulation of vehicles entering and exiting the premises, ensuring o
 </tr>
 </table>
 
-## 📋 Prerequisites
+### 💻 System Hardware Requirements
 
-- Python 3.8+
-- Pip for Python package management
+To ensure optimal performance of the Persian License Plate Recognition System (PLPR), the following hardware specifications are recommended:
+
+- **Processor**: Intel Core i5 (8th Gen) or equivalent/higher.
+- **Memory**: 8 GB RAM or more.
+- **Graphics**: Dedicated GPU (NVIDIA GTX 1060 or equivalent) with at least 4 GB VRAM for efficient real-time processing and deep learning model computations.
+- **Storage**: SSD with at least 20 GB of free space for software, models, and datasets.
+- **Operating System**: Compatible with Windows 10/11, Linux (Ubuntu 18.04 or later), and macOS (10.14 Mojave or later).
+
+These specifications are designed to handle the computational demands of advanced deep learning models, real-time video processing, and high-volume data management integral to the PLPR system. Adjustments may be necessary based on specific deployment scenarios and performance expectations.
 
 ## 🚀 Getting Started
 
@@ -114,6 +121,15 @@ Handles the regulation of vehicles entering and exiting the premises, ensuring o
    ```bash
    pip install -r requirements.txt
    ```
+
+
+### 🔄 Video Source Configuration
+
+To customize the video source for processing, modify the parameter in `cv2.VideoCapture(0)`, where `0` denotes the default webcam input. For using a specific video file, change this parameter to `params.video`, which fetches the video path from `config.ini`. In `config.ini`, set the `video` parameter to your video file path, e.g., `video = anpr_video.mp4`, replacing `anpr_video.mp4` with the path to your video file.
+
+For streaming video sources, update the `config.ini` file with the stream address. Replace the existing video path with your stream address, for example, `rtps = rtsp://172.17.0.1:8554/webCamStream`. This adjustment allows the system to process video streams in real-time.
+
+This flexibility in video source selection enables seamless integration and testing across various input methods, ensuring adaptability to different operational requirements.
 
 ### ▶️ Running the Application
 
