@@ -63,10 +63,10 @@ def get_device():
 
 
 
-modelPlate = torch.hub.load('yolov5', 'custom', 'model/best_v3.pt', source='local', force_reload=True)
+modelPlate = torch.hub.load('yolov5', 'custom', params.modelPlate_path, source='local', force_reload=True)
 # modelPlate = modelPlate.to(device())
 
-modelCharX = torch.hub.load('yolov5', 'custom', 'model/bestChars.pt', source='local', force_reload=True)
+modelCharX = torch.hub.load('yolov5', 'custom', params.modelCharX_path, source='local', force_reload=True)
 # modelCharX = modelCharX.to(device())
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -298,6 +298,13 @@ class Worker1(QThread):
     def prepare_capture(self):
         self.prev_frame_time = 0
         self.ThreadActive = True
+        """
+        # you can change 0 in >>>cv2.VideoCapture(0)<<< (which is webcam) to params.video
+        # and it will read the config.ini >>> video = anpr_video.mp4
+        # you should add your file path instead of anpr_video.mp4
+        # if you want to use stream just replace your address in config.ini 
+        >>> rtps = rtsp://172.17.0.1:8554/webCamStream
+        """
         self.Capture = cv2.VideoCapture(0)
         self.adjust_video_position()
 
