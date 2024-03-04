@@ -125,6 +125,9 @@ These specifications are designed to handle the computational demands of advance
 
 ### 🔄 Video Source Configuration
 
+
+<img src="repo_images/change_source.png" alt="where to change the source" style="max-width:300px;">
+
 To customize the video source for processing, modify the parameter in `cv2.VideoCapture(0)`, where `0` denotes the default webcam input. For using a specific video file, change this parameter to `params.video`, which fetches the video path from `config.ini`. In `config.ini`, set the `video` parameter to your video file path, e.g., `video = anpr_video.mp4`, replacing `anpr_video.mp4` with the path to your video file.
 
 For streaming video sources, update the `config.ini` file with the stream address. Replace the existing video path with your stream address, for example, `rtps = rtsp://172.17.0.1:8554/webCamStream`. This adjustment allows the system to process video streams in real-time.
