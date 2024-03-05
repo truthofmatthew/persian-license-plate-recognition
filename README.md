@@ -149,7 +149,7 @@ The system's GUI enables users to upload and process images or video streams, di
 
 For a deep dive into the PLPR system's architecture, model training, and advanced usage, check out our [Wiki](https://github.com/mtkarimi/smart-resident-guard/wiki). It's a comprehensive resource for users and developers alike.
 
-## 📚 Additional Resources
+## 📚 Additional Academic Resources
 
 Explore the `pdf-research` directory for research papers and articles on LPR technologies, offering insights into the techniques and algorithms behind the system.
 
