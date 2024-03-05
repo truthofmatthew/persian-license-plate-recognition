@@ -1,10 +1,17 @@
-😅 I made this project to help people learn how to train their models and use them for their own projects. It's specifically designed for training a license plate reading project, but it can be adapted for any object detection task. Personally, I don’t regard ALPR (Automatic License Plate Recognition) as a real ML project; **it's more like a joke to me. 😂** Hence, I believe all resources and tools related to it should be open source to encourage community development and learning.
+😅 I made this project to help people learn how to train their models and use them for their own projects. It's specifically designed for training a license plate reading project, but it can be adapted for any object detection task. Personally, I believe all resources and tools related to it should be open source to encourage community development and learning.
+
+## 📚 Additional Academic Resources
+
+Explore the `pdf-research` directory for research papers and articles on LPR technologies, offering insights into the techniques and algorithms behind the system.
+
+---
 
 1. Download the Iranis dataset.
 2. Decompress and use `split_folders.py`.
 3. Use `annotate_for_yolo.py` after splitting.
 4. Finally, use `train_yolo.py`.
 
+https://github.com/mtkarimi/smart-resident-guard/tree/main/iranis%20yolov8%20trainer
 
 # YOLOv8 Training Project
 
