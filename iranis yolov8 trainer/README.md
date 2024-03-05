@@ -11,7 +11,6 @@ Explore the `pdf-research` directory for research papers and articles on LPR tec
 3. Use `annotate_for_yolo.py` after splitting.
 4. Finally, use `train_yolo.py`.
 
-https://github.com/mtkarimi/smart-resident-guard/tree/main/iranis%20yolov8%20trainer
 
 # YOLOv8 Training Project
 
