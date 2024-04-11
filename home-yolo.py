@@ -61,12 +61,12 @@ def get_device():
         return torch.device("cpu")
 
 
-
-
 modelPlate = torch.hub.load('yolov5', 'custom', params.modelPlate_path, source='local', force_reload=True)
 # modelPlate = modelPlate.to(device())
 
 modelCharX = torch.hub.load('yolov5', 'custom', params.modelCharX_path, source='local', force_reload=True)
+
+
 # modelCharX = modelCharX.to(device())
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -249,8 +249,14 @@ class MainWindow(QtWidgets.QMainWindow):
             self.update_plate_owner(db_get_plate_owner_name(plate_text_clean))
             self.update_plate_permission(status)
 
+            # Create data for send into carvann
+            carvann_data = {
+                'plate_number': plt_text_num + '-' + plt_text_ir,
+                'image': cropped_plate
+            }
             # Add the plate text, character confidence, plate confidence, cropped plate, and status to the database
-            db_entries_time(plate_text_clean, char_conf_avg, plate_conf_avg, cropped_plate, status)
+            db_entries_time(plate_text_clean, char_conf_avg, plate_conf_avg, cropped_plate, status,
+                            carvann_data=carvann_data)
             self.Worker2.start()
 
     def update_plate_owner(self, name):
@@ -274,6 +280,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def stop_webcam(self):
         self.Worker1.stop()
+
 
 class Worker1(QThread):
     """
