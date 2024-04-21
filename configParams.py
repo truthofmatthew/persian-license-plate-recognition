@@ -41,6 +41,9 @@ class Parameters:
         self.rtps = sourceConfig["rtps"]
         self.webcam = sourceConfig["webcam"]
         self.source = sourceConfig["source"]
+        # carvann
+        carvann_config = config_object["CARVANN"]
+        self.carvann_url = carvann_config["url"]
 
         self.video_path = r"./anpr_video.mp4"
         self.cpu_or_cuda = "cpu"  # choose device; "cpu" or "cuda"(if cuda is available)

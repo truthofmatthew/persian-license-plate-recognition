@@ -1,8 +1,11 @@
 import requests
 
 from carvann.utility import convert_image_to_byte, convert_fa_digits_to_en
+from configParams import Parameters
 
-CARVANN_URL = 'http://127.0.0.1:8000/api/v1/camera/'
+params = Parameters()
+
+CARVANN_URL = params.carvann_url
 
 
 def send_data_to_carvann(data: dict) -> None:
