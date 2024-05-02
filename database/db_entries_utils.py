@@ -2,6 +2,7 @@ import datetime
 import sqlite3
 import time
 
+from carvann.send import send_data_to_carvann
 from configParams import Parameters
 from database.classEntries import Entries
 from helper.text_decorators import check_similarity_threshold
@@ -79,7 +80,7 @@ def dbGetAllEntries(limit=10, orderBy='eDate', orderType='DESC', whereLike=''):
 similarityTemp = ''
 
 
-def db_entries_time(number, charConfAvg, plateConfAvg, croppedPlate, status):
+def db_entries_time(number, charConfAvg, plateConfAvg, croppedPlate, status, carvann_data: dict = None):
     global similarityTemp
     isSimilar = check_similarity_threshold(similarityTemp, number)
     if not isSimilar:
@@ -102,7 +103,7 @@ def db_entries_time(number, charConfAvg, plateConfAvg, croppedPlate, status):
                     entries = Entries(plateConfAvg, charConfAvg, display_date, display_time, number, status)
 
                     insertEntries(entries)
-
+                    send_data_to_carvann(carvann_data)
                 else:
                     pass
             else:
@@ -116,6 +117,7 @@ def db_entries_time(number, charConfAvg, plateConfAvg, croppedPlate, status):
                     entries = Entries(plateConfAvg, charConfAvg, display_date, display_time, number, status)
 
                     insertEntries(entries)
+                    send_data_to_carvann(carvann_data)
 
 
 def getFieldNames(fieldsList):
