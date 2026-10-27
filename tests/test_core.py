@@ -28,6 +28,14 @@ def test_tracker_votes_and_emits_once():
     assert [tr.best.key for tr in out] == ["12B34567"]
 
 
+def test_tracker_flush_finishes_pending_track_once():
+    codes = list("12") + ["B"] + list("34567")
+    t = PlateTracker(min_hits=3)
+    assert t.update([PlateRead((10, 10, 110, 40), 0.8, codes, [0.9] * 8, parse_codes(codes))]) == []
+    assert [tr.best.key for tr in t.flush()] == ["12B34567"]
+    assert t.flush() == [] and t.tracks == []
+
+
 @pytest.mark.skipif(not (DEFAULT_MODEL_DIR / "plate.onnx").exists(), reason="run scripts/export_onnx.py first")
 @pytest.mark.parametrize("name", ["34D31966", "87Y16111"])
 def test_engine_reads_real_plates(name):

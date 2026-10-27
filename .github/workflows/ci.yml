@@ -31,6 +31,8 @@ jobs:
           name: onnx-models
           path: model/onnx/
       - uses: astral-sh/setup-uv@v6
+      - name: Qt system libraries (offscreen PySide6)
+        run: sudo apt-get update -q && sudo apt-get install -yq libegl1 libgl1 libxkbcommon0 libfontconfig1 libdbus-1-3
       - run: |
           uv venv -p 3.12
           uv pip install -e ".[server,desktop,dev]"

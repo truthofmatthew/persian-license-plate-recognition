@@ -287,6 +287,7 @@ class Worker1(QThread):
             self.process_frame(frame)
             self.manageFrameRate()
         self.Capture.release()
+        self.finish(self.tracker.flush())  # car still in view when the video ended or Stop was pressed
 
     def prepare_capture(self):
         self.prev_frame_time = 0
@@ -330,6 +331,9 @@ class Worker1(QThread):
                 best = self.bestCrops.get(t.id)
                 if best is None or crops[t.box][1].char_conf >= best[1].char_conf:
                     self.bestCrops[t.id] = crops[t.box]
+        self.finish(done)
+
+    def finish(self, done):
         for t in done:
             if t.id in self.bestCrops:
                 crop, r = self.bestCrops[t.id]

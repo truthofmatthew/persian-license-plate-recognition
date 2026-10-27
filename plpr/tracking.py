@@ -86,3 +86,11 @@ class PlateTracker:
                 t.emitted = True
                 done.append(t)
         return done
+
+    def flush(self) -> list[Track]:
+        """End of input (video ended, camera stopped): finish every pending track that has a good read."""
+        done = [t for t in self.tracks if not t.emitted and t.best]
+        for t in done:
+            t.emitted = True
+        self.tracks.clear()
+        return done

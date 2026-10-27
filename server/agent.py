@@ -172,6 +172,15 @@ class Agent:
             r = next((r for r in reads if r.plate and r.box == t.box and t.missed == 0), None)
             if r and r.char_conf >= self.best.get(t.id, (-1.0, b""))[0]:
                 self.best[t.id] = (r.char_conf, crop_jpeg(frame, t.box))
+        results = self.finish(done)
+        if len(self.spool) and time.monotonic() - self._last_flush > self.flush_interval:
+            self.flush()
+        return results
+
+    def finish(self, done: list | None = None) -> list[dict | None]:
+        """Deliver finished tracks; with no argument, finish everything still pending (end of input)."""
+        if done is None:
+            done = self.tracker.flush()
         results = []
         for t in done:
             conf, crop = self.best.get(t.id, (0.0, None))
@@ -181,8 +190,6 @@ class Agent:
             results.append(self.deliver(ev))
         live = {t.id for t in self.tracker.tracks}
         self.best = {k: v for k, v in self.best.items() if k in live}
-        if len(self.spool) and time.monotonic() - self._last_flush > self.flush_interval:
-            self.flush()
         return results
 
     def deliver(self, ev: Event) -> dict | None:
@@ -246,6 +253,7 @@ def run(source: str, agent: Agent, stop: threading.Event, reconnect_delay: float
         if not stop.is_set():
             log.warning("stream %s dropped, reconnecting", source)
             stop.wait(reconnect_delay)
+    agent.finish()  # car still in view when the file ended or the agent was stopped
     agent.flush()
 
 
