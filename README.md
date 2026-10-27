@@ -145,7 +145,7 @@ The full plan is in [PLPR-modernization-plan.md](PLPR-modernization-plan.md).
 
 ```bash
 uv pip install -e ".[server,desktop,dev]"
-QT_QPA_PLATFORM=offscreen uv run pytest -q          # 53 tests
+QT_QPA_PLATFORM=offscreen uv run pytest -q
 cd web && npm test && npm run e2e                     # unit + browser tests
 ```
 
