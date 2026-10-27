@@ -1,0 +1,34 @@
+[project]
+name = "plpr"
+version = "2.0.0"
+description = "Persian license plate recognition on ONNX Runtime: desktop, server, edge and browser"
+readme = "README.md"
+license = "GPL-3.0-only"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.26",
+    "opencv-python-headless>=4.9",
+    "onnxruntime>=1.18",
+    "pillow>=10.3",
+]
+
+[project.optional-dependencies]
+# PySide6 desktop app (home-yolo.py)
+desktop = ["PySide6>=6.7", "QtPy>=2.4", "python-bidi>=0.4.2", "arabic-reshaper>=3.0", "jellyfish>=1.0", "requests>=2.32"]
+# FastAPI server + edge agent (server/)
+server = ["fastapi>=0.115", "uvicorn[standard]>=0.30", "sqlmodel>=0.0.22", "python-multipart>=0.0.9", "httpx>=0.27", "pydantic-settings>=2.4"]
+# Training, export and evaluation (scripts/, trainer/)
+train = ["ultralytics>=8.3", "torch>=2.4", "torchvision>=0.19", "onnx>=1.16", "onnxconverter-common>=1.14", "onnxscript", "setuptools<81", "pyyaml", "pandas", "seaborn", "scipy", "tqdm"]
+postgres = ["psycopg[binary]>=3.2"]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[tool.setuptools.packages.find]
+include = ["plpr*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 140
+extend-exclude = ["yolov5"]

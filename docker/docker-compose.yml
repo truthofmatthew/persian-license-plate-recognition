@@ -1,0 +1,70 @@
+# docker compose -f docker/docker-compose.yml up -d            api + go2rtc
+# docker compose -f docker/docker-compose.yml --profile agent up -d   + edge agent (needs PLPR_AGENT_TOKEN)
+# docker compose -f docker/docker-compose.yml --profile postgres up -d  + Postgres (set PLPR_DATABASE_URL)
+# Copy docker/.env.example to docker/.env first. No real credentials belong in this file.
+name: plpr
+
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: plpr:2.0
+    restart: unless-stopped
+    environment:
+      PLPR_ADMIN_TOKEN: ${PLPR_ADMIN_TOKEN:?set PLPR_ADMIN_TOKEN in docker/.env}
+      PLPR_DATABASE_URL: ${PLPR_DATABASE_URL:-sqlite:////data/plpr.db}
+      PLPR_RETENTION_DAYS: ${PLPR_RETENTION_DAYS:-90}
+      PLPR_CORS_ORIGINS: '${PLPR_CORS_ORIGINS:-["http://localhost:5173"]}'
+    volumes:
+      - api-data:/data
+    ports:
+      - "8000:8000"
+
+  agent:
+    image: plpr:2.0
+    profiles: [agent]
+    restart: unless-stopped
+    depends_on:
+      api:
+        condition: service_healthy
+    # Reads the camera through go2rtc's RTSP restream, so the camera serves one connection.
+    command: >
+      python -m server.agent --source ${AGENT_SOURCE:-rtsp://go2rtc:8554/gate1}
+      --gate-id ${AGENT_GATE_ID:-1} --server http://api:8000 --every 3
+      --spool /data/spool --data-dir /data
+    environment:
+      PLPR_AGENT_TOKEN: ${PLPR_AGENT_TOKEN:-}
+      PLPR_RELAY_URL: ${PLPR_RELAY_URL:-}
+    volumes:
+      - agent-data:/data
+    stop_grace_period: 15s
+
+  go2rtc:
+    image: alexxit/go2rtc:1.9.9
+    restart: unless-stopped
+    environment:
+      GATE1_RTSP_URL: ${GATE1_RTSP_URL:-rtsp://user:password@192.168.1.64:554/stream1}
+    volumes:
+      - ./go2rtc.yaml:/config/go2rtc.yaml:ro
+    ports:
+      - "1984:1984"          # HTTP API + WebRTC signalling for the web app
+      - "8554:8554"          # RTSP restream
+      - "8555:8555/tcp"      # WebRTC media
+      - "8555:8555/udp"
+
+  postgres:
+    image: postgres:16-alpine
+    profiles: [postgres]
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: plpr
+      POSTGRES_USER: plpr
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in docker/.env}
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+
+volumes:
+  api-data:
+  agent-data:
+  pg-data:

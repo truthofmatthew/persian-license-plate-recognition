@@ -1,18 +1,16 @@
 import sys
 from pathlib import Path
 
-import pandas as pd
-import persian
 from PySide6.QtCore import *
 from PySide6.QtGui import *
 from PySide6.QtWidgets import *
-from persian import convert_fa_numbers
 from qtpy.uic import loadUi
 
 from configParams import getFieldNames
 from database.classResidents import Resident
 from database.db_resident_utils import insertResident, dbGetPlateExist, dbGetResidentDatasByPlate
 from gui import plateQLineEdit
+from plpr.labels import to_latin_digits as convert_fa_numbers
 from helper.text_decorators import *
 
 params = Parameters()
@@ -97,7 +95,7 @@ class residentsAddNewWindow(QDialog):
 
         plateNumText = '{}{}{}{}'.format(self.plateTextNum_1.getText(), plateAlpabet, self.plateTextNum_3.getText(),
                                          self.plateTextNum_4.getText())
-        plateNumTextBox = persian.convert_fa_numbers(plateNumText)
+        plateNumTextBox = convert_fa_numbers(plateNumText)
 
         statusTextBox = self.statusComboBox.currentText()
         statusIndex = self.statusComboBox.currentIndex()
@@ -137,21 +135,6 @@ class residentsAddNewWindow(QDialog):
                 font-weight: bold;
                 padding-right: 2px;
                 padding-left: 2px;""".format(224, 27, 36))  # RED
-
-            residentExport = {
-                'fName': [fNameTextBox],
-                'lName': [lNameTextBox],
-                'building': [convert_fa_numbers(buildingTextBox)],
-                'block': [convert_fa_numbers(blockTextBox)],
-                'num': [convert_fa_numbers(numTextBox)],
-                'carModel': [carModelTextBox],
-                'plateNum': [plateNumTextBox],
-                'status': [statusIndex],
-            }
-
-            df = pd.DataFrame(residentExport)
-            df.to_csv(str(Path().absolute()) + '/base/residents.csv', header=False, index=False, mode='a',
-                      encoding='utf-8')
 
 
 if __name__ == "__main__":

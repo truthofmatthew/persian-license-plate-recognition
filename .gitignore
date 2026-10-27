@@ -122,8 +122,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
+/lib/
+/lib64/
 parts/
 sdist/
 var/
@@ -268,3 +268,18 @@ cython_debug/
 # Ignore all the .idea folder contents
 #.idea/
 
+
+### PLPR 2.0
+.DS_Store
+model/onnx/
+web/node_modules/
+web/dist/
+web/public/models/
+*.db-journal
+runs/
+config.ini
+database/*.db
+temp/
+.idea/
+data/
+.DS_Store

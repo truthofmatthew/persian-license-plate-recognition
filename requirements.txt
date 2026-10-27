@@ -1,21 +1,2 @@
-opencv-python~=4.9.0.80
-numpy~=1.26.4
-pillow~=10.2.0
-PySide6~=6.6.2
-jellyfish~=1.0.3
-torch~=2.2.1
-PyYAML~=6.0.1
-torchvision~=0.17.1
-matplotlib~=3.8.3
-ultralytics~=8.1.21
-pandas~=2.1.4
-seaborn~=0.13.2
-scipy~=1.12.0
-requests~=2.31.0
-tqdm~=4.66.2
-psutil~=5.9.8
-tensorflow~=2.15.1
-QtPy~=2.4.1
-keras~=2.15.0
-streamlit~=1.32.1
-persian~=0.5.0
+# Dependencies live in pyproject.toml; this file installs the desktop app (extras: desktop, server, train, dev).
+-e .[desktop]

@@ -1,0 +1,12 @@
+# Allow-list: the image only needs the package, the server, the export script and the weights.
+*
+!pyproject.toml
+!README.md
+!plpr
+!server
+!scripts/export_onnx.py
+!yolov5
+!model/plateYolo.pt
+!model/CharsYolo.pt
+**/__pycache__
+**/.DS_Store

@@ -1,0 +1,14 @@
+# go2rtc: turns the gate camera's RTSP into WebRTC for the web app and an RTSP restream for the agent.
+# The camera URL comes from GATE1_RTSP_URL (docker/.env); the default below is a placeholder.
+streams:
+  gate1: ${GATE1_RTSP_URL:rtsp://user:password@192.168.1.64:554/stream1}
+
+api:
+  listen: ":1984"   # web app connects to ws://<host>:1984/api/ws?src=gate1
+  origin: "*"       # allow the web app on another origin; tighten in production
+
+rtsp:
+  listen: ":8554"   # agent reads rtsp://go2rtc:8554/gate1
+
+webrtc:
+  listen: ":8555"

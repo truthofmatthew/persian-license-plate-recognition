@@ -42,7 +42,7 @@ class EnteriesWindow(QDialog):
                 convert_persian_to_english(split_string_language_specific(entry.getPlateNumber(display=True))))
             statusNum = db_get_plate_status(plateNum2)
 
-            self.tableWidget.setItem(index, 0, QTableWidgetItem(entry.getStatus(statusNum=statusNum)))
+            self.tableWidget.setItem(index, 0, entry.getStatus(statusNum=statusNum))
             self.tableWidget.setItem(index, 1, QTableWidgetItem(entry.getPlateNumber(display=True)))
             self.tableWidget.setItem(index, 2, QTableWidgetItem(entry.getTime()))
             self.tableWidget.setItem(index, 3, QTableWidgetItem(entry.getDate()))
