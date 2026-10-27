@@ -1,73 +1,60 @@
 # home-yolo.py
 
 """
-Main script to run the License Plate Recognition (LPR) application. This application
-uses deep learning models to detect and recognize license plates and characters.
-It is built with PySide6 for the GUI and utilizes PyTorch for model inference.
-
-Requirements:
-- PySide6 for the GUI
-- PyTorch for deep learning inference
-- Pillow for image processing
-- OpenCV for video and image manipulation
+Main script to run the License Plate Recognition (LPR) application: camera -> plate detector
+-> character detector -> resident lookup -> entry log. GUI in PySide6; inference through
+plpr.Engine (ONNX Runtime, no PyTorch). Settings come from config.ini (see config.example.ini).
 """
 
 import functools
-import gc
-import statistics
+import sys
 import time
 import warnings
 from pathlib import Path
-import torch
-from PIL import ImageOps
+
+import cv2
 from PySide6 import QtWidgets
-from PySide6.QtCore import QThread, Signal, QSize
-from PySide6.QtGui import QImage, QIcon, QAction, QPainter
-from PySide6.QtWidgets import QTableWidgetItem, QGraphicsScene
+from PySide6.QtCore import QCoreApplication, QSize, Qt, QThread, Signal
+from PySide6.QtGui import QAction, QIcon, QImage, QPainter, QPixmap
+from PySide6.QtWidgets import QGraphicsScene, QTableWidgetItem
 from qtpy.uic import loadUi
 
-import ai.img_model as imgModel
-from ai.img_model import *
-from configParams import Parameters
+from ai.img_model import draw_fps
+from configParams import Parameters, capture_source
 from database.db_entries_utils import db_entries_time, dbGetAllEntries
-from database.db_resident_utils import db_get_plate_status, db_get_plate_owner_name
+from database.db_resident_utils import db_get_plate_owner_name, db_get_plate_status
 from enteries_window import EnteriesWindow
-from helper.gui_maker import configure_main_table_widget, create_image_label, on_label_double_click, center_widget, \
-    get_status_text, get_status_color, \
-    create_styled_button
-from helper.text_decorators import convert_english_to_persian, clean_license_plate_text, join_elements, \
-    convert_persian_to_english, split_string_language_specific
+from helper.gui_maker import (
+    center_widget,
+    configure_main_table_widget,
+    create_image_label,
+    create_styled_button,
+    get_status_color,
+    get_status_text,
+    on_label_double_click,
+)
+from helper.text_decorators import convert_english_to_persian, convert_persian_to_english, join_elements, split_string_language_specific
+from plpr import Engine, PlateTracker
 from resident_view import residentView
 from residents_edit import residentsAddNewWindow
 from residents_main import residentsWindow
 
 warnings.filterwarnings("ignore", category=UserWarning)
 params = Parameters()
-import sys
-
-sys.path.append('yolov5')
+engine = Engine(params.onnx_dir)
 
 
-def get_device():
-    """
-    Determines the device to run the PyTorch models on.
-    Returns a torch.device object representing the device (CUDA, MPS, or CPU).
-    """
-    if torch.cuda.is_available():
-        return torch.device("cuda")
-    elif torch.backends.mps.is_available():
-        return torch.device("mps")
-    else:
-        return torch.device("cpu")
+def to_qimage(bgr):
+    rgb = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
+    # copy: the QImage must not point into a numpy buffer that gets freed
+    return QImage(rgb.data, rgb.shape[1], rgb.shape[0], rgb.strides[0], QImage.Format_RGB888).copy()
 
 
-modelPlate = torch.hub.load('yolov5', 'custom', params.modelPlate_path, source='local', force_reload=True)
-# modelPlate = modelPlate.to(device())
+def plate_halves(plate):
+    """Display strings for the two boxes of the plate widget: '12 B 345' and the region code."""
+    codes = list(plate.left) + [plate.letter] + list(plate.middle)
+    return convert_english_to_persian(codes, display=True), convert_english_to_persian(plate.region, display=True)
 
-modelCharX = torch.hub.load('yolov5', 'custom', params.modelCharX_path, source='local', force_reload=True)
-
-
-# modelCharX = modelCharX.to(device())
 
 class MainWindow(QtWidgets.QMainWindow):
     """
@@ -79,7 +66,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """
        Initializes the main window and its components.
        """
-        super(MainWindow, self).__init__()
+        super().__init__()
         loadUi('./gui/mainFinal.ui', self)
         self.setFixedSize(self.size())
 
@@ -114,7 +101,8 @@ class MainWindow(QtWidgets.QMainWindow):
             f"""border-image: url("{Path().absolute()}/Templates/template-base.png") 0 0 0 0 stretch stretch;""")
 
         self.Worker1 = Worker1()
-        self.Worker1.plateDataUpdate.connect(self.on_plate_data_update)
+        self.Worker1.plateDataUpdate.connect(self.on_plate_preview)
+        self.Worker1.plateFinished.connect(self.on_plate_data_update)
         self.Worker1.mainViewUpdate.connect(self.on_main_view_update)
 
         self.Worker2 = Worker2()
@@ -123,10 +111,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
         configure_main_table_widget(self)
         self.scene = QGraphicsScene()
+        # one pixmap item, updated in place: adding a pixmap per frame grew memory without bound
+        self.frameItem = self.scene.addPixmap(QPixmap())
+        self.scene.setSceneRect(0, 0, 960, 540)
         self.gv.setScene(self.scene)
-
-        torch.cuda.empty_cache()
-        gc.collect()
+        self.gv.setRenderHints(QPainter.Antialiasing)
 
     def refresh_table(self, plateNum=''):
 
@@ -142,7 +131,7 @@ class MainWindow(QtWidgets.QMainWindow):
             # Get the plate status from the database
             statusNum = db_get_plate_status(plateNum2)
             # Set the status of the entry in the table widget
-            self.tableWidget.setItem(index, 0, QTableWidgetItem(entry.getStatus(statusNum=statusNum)))
+            self.tableWidget.setItem(index, 0, entry.getStatus(statusNum=statusNum))
             # Set the plate number of the entry in the table widget
             self.tableWidget.setItem(index, 1, QTableWidgetItem(entry.getPlateNumber(display=True)))
             # Set the time of the entry in the table widget
@@ -201,6 +190,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def closeEvent(self, event):
         """### IT OVERRIDES closeEvent from PySide6"""
+        self.Worker1.stop()
+        self.Worker1.wait(2000)
         if self.residentsWindow is not None and self.enterieswindow is not None:
             self.residentsWindow.close()
             self.enterieswindow.close()  # TODO if not openned any window will crash
@@ -218,46 +209,35 @@ class MainWindow(QtWidgets.QMainWindow):
         enterieswindow.exec()
 
     def on_main_view_update(self, mainViewImage):
-
-        qp = QPixmap.fromImage(mainViewImage)
-
-        self.scene.addPixmap(qp)
-        self.scene.setSceneRect(0, 0, 960, 540)
+        self.frameItem.setPixmap(QPixmap.fromImage(mainViewImage))
         self.gv.fitInView(self.scene.sceneRect())
-        self.gv.setRenderHints(QPainter.Antialiasing)
 
-    def on_plate_data_update(self, cropped_plate: QImage, plate_text: str, char_conf_avg: float,
-                             plate_conf_avg: float) -> None:
+    def show_plate(self, cropped_plate: QImage, plate) -> tuple[str, str]:
+        self.plate_view.setScaledContents(True)
+        self.plate_view.setPixmap(QPixmap.fromImage(cropped_plate))
+        plt_text_num, plt_text_ir = plate_halves(plate)
+        self.plate_text_num.setText(plt_text_num)
+        self.plate_text_ir.setText(plt_text_ir)
+        return plt_text_num, plt_text_ir
 
-        # Check if the plate text is 8 characters long and the character confidence is above 70
-        if len(plate_text) == 8 and char_conf_avg >= 70:
-            # Set the plate view to display the cropped plate
-            self.plate_view.setScaledContents(True)
-            self.plate_view.setPixmap(QPixmap.fromImage(cropped_plate))
+    def on_plate_preview(self, cropped_plate: QImage, plate, char_conf: int, plate_conf: int) -> None:
+        """Every processed frame: just show what the camera reads right now."""
+        self.show_plate(cropped_plate, plate)
 
-            # Convert the plate text to Persian and set the text for the plate number and plate text in Persian
-            plt_text_num = convert_english_to_persian(plate_text[:6], display=True)
-            plt_text_ir = convert_english_to_persian(plate_text[6:], display=True)
-            self.plate_text_num.setText(plt_text_num)
-            self.plate_text_ir.setText(plt_text_ir)
+    def on_plate_data_update(self, cropped_plate: QImage, plate, char_conf_avg: int, plate_conf_avg: int) -> None:
+        """Once per vehicle (finished track): look up the resident, log the entry, notify the service."""
+        plt_text_num, plt_text_ir = self.show_plate(cropped_plate, plate)
+        status = db_get_plate_status(plate.key)
+        self.update_plate_owner(db_get_plate_owner_name(plate.key))
+        self.update_plate_permission(status)
 
-            # Clean the plate text and get the status from the database
-            plate_text_clean = clean_license_plate_text(plate_text)
-            status = db_get_plate_status(plate_text_clean)
-
-            # Update the plate owner and permission
-            self.update_plate_owner(db_get_plate_owner_name(plate_text_clean))
-            self.update_plate_permission(status)
-
-            # Create data for send into services
-            external_service_data = {
-                'plate_number': plt_text_num + '-' + plt_text_ir,
-                'image': cropped_plate
-            }
-            # Add the plate text, character confidence, plate confidence, cropped plate, and status to the database
-            db_entries_time(plate_text_clean, char_conf_avg, plate_conf_avg, cropped_plate, status,
-                            external_service_data=external_service_data)
-            self.Worker2.start()
+        external_service_data = {
+            'plate_number': plt_text_num + '-' + plt_text_ir,
+            'image': cropped_plate
+        }
+        db_entries_time(plate.key, char_conf_avg, plate_conf_avg, cropped_plate, status,
+                        external_service_data=external_service_data)
+        self.Worker2.start()
 
     def update_plate_owner(self, name):
         if name:
@@ -270,7 +250,7 @@ class MainWindow(QtWidgets.QMainWindow):
         statusText = get_status_text(status)
 
         self.plate_permission_view.setText(statusText)
-        self.plate_permission_view.setStyleSheet("background-color: rgb({}, {}, {});".format(r, g, b))
+        self.plate_permission_view.setStyleSheet(f"background-color: rgb({r}, {g}, {b});")
 
     def start_webcam(self):
         if not self.Worker1.isRunning():
@@ -284,11 +264,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
 class Worker1(QThread):
     """
-    Worker thread that handles frame grabbing and processing in the background.
-    It is responsible for detecting plates and recognizing characters.
+    Worker thread that grabs frames, reads plates on every Nth frame and tracks them,
+    so a passing car produces one plateFinished signal instead of one per frame.
     """
     mainViewUpdate = Signal(QImage)
-    plateDataUpdate = Signal(QImage, list, int, int)
+    plateDataUpdate = Signal(QImage, object, int, int)  # live preview: crop, PlateNumber, char %, plate %
+    plateFinished = Signal(QImage, object, int, int)  # once per vehicle, same arguments
     TotalFramePass = 0
 
     def __init__(self, parent=None):
@@ -298,90 +279,74 @@ class Worker1(QThread):
         self.prepare_capture()
         while self.ThreadActive:
             success, frame = self.Capture.read()
-            if success:
-                self.process_frame(frame)
-                self.manageFrameRate()
+            if not success:
+                if params.source == 'video':
+                    break  # end of file
+                time.sleep(0.05)
+                continue
+            self.process_frame(frame)
+            self.manageFrameRate()
+        self.Capture.release()
 
     def prepare_capture(self):
         self.prev_frame_time = 0
         self.ThreadActive = True
-        """
-        # you can change 0 in >>>cv2.VideoCapture(0)<<< (which is webcam) to params.video
-        # and it will read the config.ini >>> video = anpr_video.mp4
-        # you should add your file path instead of anpr_video.mp4
-        # if you want to use stream just replace your address in config.ini 
-        >>> rtps = rtsp://172.17.0.1:8554/webCamStream
-        """
-        self.Capture = cv2.VideoCapture(params.rtps)  # 0 -> use for local webcam
+        self.reads = []
+        self.bestCrops = {}  # track id -> (crop QImage, PlateRead) with the highest char confidence
+        self.tracker = PlateTracker(min_hits=params.min_hits)
+        self.Capture = cv2.VideoCapture(capture_source(params))
         self.adjust_video_position()
 
     def adjust_video_position(self):
         if params.source == 'video':
             total = int(self.Capture.get(cv2.CAP_PROP_FRAME_COUNT))
-            self.TotalFramePass = 0 if self.TotalFramePass > total else self.TotalFramePass
-            self.Capture.set(1, self.TotalFramePass)
+            self.TotalFramePass = 0 if self.TotalFramePass >= total else self.TotalFramePass
+            self.Capture.set(cv2.CAP_PROP_POS_FRAMES, self.TotalFramePass)
 
     def process_frame(self, frame):
         self.TotalFramePass += 1
-        resize = self.prepareImage(frame)
+        frame = cv2.resize(frame, (960, 540))
+        if self.TotalFramePass % params.process_every_n == 0:
+            self.reads = engine.read(frame, params.plate_conf, params.char_conf)
+            self.track(frame, self.reads)
+        for r in self.reads:  # skipped frames show the last boxes
+            x1, y1, x2, y2 = r.box
+            cv2.rectangle(frame, (x1 - 3, y1 - 3), (x2 + 3, y2 + 3), color=(0, 0, 255), thickness=3)
+        self.emitFrame(frame)
 
-        platesResult = modelPlate(resize).pandas().xyxy[0]
-        for _, plate in platesResult.iterrows():
-            plateConf = int(plate['confidence'] * 100)
-            if plateConf >= 90:
-                self.highlightPlate(resize, plate)
-                croppedPlate = self.cropPlate(resize, plate)
-                plateText, char_detected, charConfAvg = self.detectPlateChars(croppedPlate)
-                self.emitPlateData(croppedPlate, plateText, char_detected, charConfAvg, plateConf)
+    def track(self, frame, reads):
+        crops = {}
+        for r in reads:
+            if r.plate is None:  # not a complete 8-symbol plate
+                continue
+            x1, y1, x2, y2 = r.box
+            crop = to_qimage(cv2.resize(frame[y1:y2, x1:x2], (600, 132)))
+            crops[r.box] = (crop, r)
+            self.plateDataUpdate.emit(crop, r.plate, round(r.char_conf * 100), round(r.plate_conf * 100))
 
-        self.emitFrame(resize)
-
-    def prepareImage(self, frame):
-        resize = cv2.resize(frame, (960, 540))
-        effect = ImageOps.autocontrast(imgModel.to_img_pil(resize), cutoff=1)
-        return cv2.cvtColor(imgModel.to_img_opencv(effect), cv2.COLOR_BGR2RGB)
-
-    def highlightPlate(self, resize, plate):
-        cv2.rectangle(resize, (int(plate['xmin']) - 3, int(plate['ymin']) - 3),
-                      (int(plate['xmax']) + 3, int(plate['ymax']) + 3),
-                      color=(0, 0, 255), thickness=3)
-
-    def cropPlate(self, resize, plate):
-        return resize[int(plate['ymin']): int(plate['ymax']), int(plate['xmin']): int(plate['xmax'])]
-
-    def emitPlateData(self, croppedPlate, plateText, char_detected, charConfAvg, plateConf):
-        croppedPlate = cv2.resize(croppedPlate, (600, 132))
-        croppedPlateImage = QImage(croppedPlate.data, croppedPlate.shape[1], croppedPlate.shape[0],
-                                   QImage.Format_RGB888)
-        self.plateDataUpdate.emit(croppedPlateImage, plateText, charConfAvg, plateConf)
+        done = self.tracker.update(reads)
+        for t in self.tracker.tracks:
+            if t.missed == 0 and t.box in crops:
+                best = self.bestCrops.get(t.id)
+                if best is None or crops[t.box][1].char_conf >= best[1].char_conf:
+                    self.bestCrops[t.id] = crops[t.box]
+        for t in done:
+            if t.id in self.bestCrops:
+                crop, r = self.bestCrops[t.id]
+                self.plateFinished.emit(crop, t.best, round(r.char_conf * 100), round(t.plate_conf * 100))
+        live = {t.id for t in self.tracker.tracks}
+        self.bestCrops = {k: v for k, v in self.bestCrops.items() if k in live}
 
     def manageFrameRate(self):
         new_frame_time = time.time()
-        fps = 1 / (new_frame_time - self.prev_frame_time)
+        fps = 1 / max(new_frame_time - self.prev_frame_time, 1e-6)
         self.prev_frame_time = new_frame_time
         self.currentFPS = fps  # Save the current FPS for later drawing on the frame
 
-    def emitFrame(self, resize):
+    def emitFrame(self, frame):
         if hasattr(self, 'currentFPS'):  # Check if currentFPS has been calculated
-            imgModel.draw_fps(resize, self.currentFPS)  # Draw FPS on the frame
-        mainFrame = QImage(resize.data, resize.shape[1], resize.shape[0], QImage.Format_RGB888)
-        self.mainViewUpdate.emit(mainFrame)
-
-    def detectPlateChars(self, croppedPlate):
-        chars, confidences, char_detected = [], [], []
-        results = modelCharX(croppedPlate)
-        detections = results.pred[0]
-        detections = sorted(detections, key=lambda x: x[0])  # sort by x coordinate
-        for det in detections:
-            conf = det[4]
-            if conf > 0.5:
-                cls = det[5].item()
-                char = params.char_id_dict.get(str(int(cls)), '')
-                chars.append(char)
-                confidences.append(conf.item())
-                char_detected.append(det.tolist())
-        charConfAvg = round(statistics.mean(confidences) * 100) if confidences else 0
-        return ''.join(chars), char_detected, charConfAvg
+            draw_fps(frame, self.currentFPS)
+        self.mainViewUpdate.emit(to_qimage(frame))
 
     def unPause(self):
         self.ThreadActive = True
@@ -407,21 +372,8 @@ class Worker2(QThread):
         self.ThreadActive = False
 
 
-def get_platform():
-    platforms = {
-        'linux1': 'Linux',
-        'linux2': 'Linux',
-        'darwin': 'OS X',
-        'win32': 'Windows'
-    }
-    if sys.platform not in platforms:
-        return sys.platform
-
-    return platforms[sys.platform]
-
-
 if __name__ == "__main__":
-    # QApplication.setAttribute(Qt.AA_UseSoftwareOpenGL) # OpenGL issue, Use before creating the QCoreApplication.
+    QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)  # must be set before QApplication exists (issue #20)
     app = QtWidgets.QApplication(sys.argv)
 
     app.setStyle('Windows')

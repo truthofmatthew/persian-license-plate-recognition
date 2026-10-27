@@ -277,3 +277,9 @@ web/dist/
 web/public/models/
 *.db-journal
 runs/
+config.ini
+database/*.db
+temp/
+.idea/
+data/
+.DS_Store

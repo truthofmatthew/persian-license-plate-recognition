@@ -1,4 +1,14 @@
+import os
 from configparser import ConfigParser
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent
+
+
+def config_path():
+    """$PLPR_CONFIG, else the local config.ini (not in git), else the committed config.example.ini."""
+    local = ROOT / "config.ini"
+    return os.environ.get("PLPR_CONFIG") or str(local if local.exists() else ROOT / "config.example.ini")
 
 
 class Parameters:
@@ -28,25 +38,25 @@ class Parameters:
         self.vis_shape = (800, 600)
 
         config_object = ConfigParser()
-        config_object.read("./config.ini")
+        config_object.read(config_path())
 
         dbconfig = config_object["DATABASE"]
         self.dbEntries = dbconfig["dbentries"]
         self.dbResidents = dbconfig["dbresidents"]
-        modelconfig = config_object["MODELCONFIG"]
-        self.modelPlate_path = modelconfig["platemodel"]
-        self.modelCharX_path = modelconfig["charmodel"]
         sourceConfig = config_object["SOURCEDETECT"]
         self.video = sourceConfig["video"]
-        self.rtps = sourceConfig["rtps"]
+        self.rtsp = sourceConfig.get("rtsp", sourceConfig.get("rtps", ""))  # v1 configs spell it "rtps"
         self.webcam = sourceConfig["webcam"]
         self.source = sourceConfig["source"]
+        # detection; fallbacks keep older config.ini files working
+        self.onnx_dir = config_object.get("MODELCONFIG", "onnxdir", fallback="./model/onnx")
+        self.plate_conf = config_object.getfloat("DETECTION", "plate_conf", fallback=0.5)
+        self.char_conf = config_object.getfloat("DETECTION", "char_conf", fallback=0.5)
+        self.process_every_n = max(1, config_object.getint("DETECTION", "process_every_n", fallback=2))
+        self.min_hits = config_object.getint("DETECTION", "min_hits", fallback=3)
         # services
         external_service_config = config_object["EXTERNAL-SERVICE"]
         self.external_service_url = external_service_config["url"]
-
-        self.video_path = r"./anpr_video.mp4"
-        self.cpu_or_cuda = "cpu"  # choose device; "cpu" or "cuda"(if cuda is available)
 
         self.label_map = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'D', 'Gh', 'H', 'J', 'L', 'M',
                           'N',
@@ -212,6 +222,17 @@ class Parameters:
             '1': 'دستی',
             '2': 'ویرایش شده'
         }
+
+
+def capture_source(params):
+    """Argument for cv2.VideoCapture from [SOURCEDETECT] source = webcam | video | rtsp."""
+    if params.source == "webcam":
+        return int(params.webcam) if params.webcam.isdigit() else params.webcam
+    if params.source == "video":
+        return params.video
+    if params.source in ("rtsp", "rtps"):
+        return params.rtsp
+    raise ValueError(f"[SOURCEDETECT] source must be webcam, video or rtsp, got {params.source!r}")
 
 
 def getFieldNames(fieldsList):

@@ -44,7 +44,7 @@ def split_string_language_specific(s, english=False):
     - list: A list of characters or words, split according to the input string's language.
     """
     if english:
-        res = re.split('(\d|\W)', s)
+        res = re.split(r'(\d|\W)', s)
         return list(filter(None, res))
 
     reshaped_text = arabic_reshaper.reshape(s)
@@ -315,7 +315,7 @@ res = [''.join(g) for _, g in groupby(lll, str.isalpha)]
 
 resE = ''.join(r'\u{:04X}'.format(ord(chr)) for chr in lll)
 
-res = re.split('(\d|\W)', ttt)
+res = re.split(r'(\d|\W)', ttt)
 results = list(filter(None, res))
 
-time_infos = [x for x in re.split('(\d|\W)', vvv) if x]
+time_infos = [x for x in re.split(r'(\d|\W)', vvv) if x]

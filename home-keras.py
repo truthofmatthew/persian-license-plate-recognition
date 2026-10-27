@@ -1,3 +1,4 @@
+"""Legacy Keras pipeline, kept as-is for reference. Needs `pip install tensorflow keras torch` separately; use home-yolo.py."""
 import gc
 import statistics
 import sys

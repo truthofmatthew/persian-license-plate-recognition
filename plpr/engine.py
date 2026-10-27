@@ -64,9 +64,12 @@ def decode(pred: np.ndarray, conf: float, iou: float) -> np.ndarray:
 
 
 class Engine:
-    def __init__(self, model_dir: str | Path = DEFAULT_MODEL_DIR, fp16: bool = False, providers: list[str] | None = None):
+    def __init__(self, model_dir: str | Path = DEFAULT_MODEL_DIR, fp16: bool = False, providers: list[str] | None = None,
+                 variant: str = ""):
+        """variant: "" (fp32), "fp16" or "int8"; picks model/onnx/{plate,chars}.<variant>.onnx."""
         model_dir = Path(model_dir)
-        suffix = ".fp16.onnx" if fp16 else ".onnx"
+        variant = variant or ("fp16" if fp16 else "")
+        suffix = f".{variant}.onnx" if variant else ".onnx"
         providers = providers or [p for p in ("CUDAExecutionProvider", "CoreMLExecutionProvider", "CPUExecutionProvider") if p in ort.get_available_providers()]
         opts = ort.SessionOptions()
         opts.log_severity_level = 3

@@ -18,7 +18,8 @@ desktop = ["PySide6>=6.7", "QtPy>=2.4", "python-bidi>=0.4.2", "arabic-reshaper>=
 # FastAPI server + edge agent (server/)
 server = ["fastapi>=0.115", "uvicorn[standard]>=0.30", "sqlmodel>=0.0.22", "python-multipart>=0.0.9", "httpx>=0.27", "pydantic-settings>=2.4"]
 # Training, export and evaluation (scripts/, trainer/)
-train = ["ultralytics>=8.3", "torch>=2.4", "torchvision>=0.19", "onnx>=1.16", "onnxconverter-common>=1.14", "onnxscript", "setuptools<81"]
+train = ["ultralytics>=8.3", "torch>=2.4", "torchvision>=0.19", "onnx>=1.16", "onnxconverter-common>=1.14", "onnxscript", "setuptools<81", "pyyaml", "pandas", "seaborn", "scipy", "tqdm"]
+postgres = ["psycopg[binary]>=3.2"]
 dev = ["pytest>=8", "ruff>=0.6"]
 
 [tool.setuptools.packages.find]
@@ -29,4 +30,4 @@ testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 140
-extend-exclude = ["yolov5", "iranis yolov8 trainer"]
+extend-exclude = ["yolov5"]

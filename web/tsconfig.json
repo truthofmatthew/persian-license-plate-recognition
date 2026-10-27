@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2023", "DOM", "DOM.Iterable", "WebWorker"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedIndexedAccess": false,
+    "isolatedModules": true,
+    "skipLibCheck": true,
+    "types": ["vite/client", "vite-plugin-pwa/client"]
+  },
+  "include": ["src", "e2e", "vite.config.ts", "playwright.config.ts"]
+}

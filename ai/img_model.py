@@ -54,11 +54,10 @@ def brighten_image(img):
      Parameters:
      - img (Image.Image): The PIL image to brighten.
 
-     Note: This function modifies the input image but does not return it.
+     Returns:
+     - Image.Image: A new, twice as bright image (the input is left unchanged).
      """
-    enhancer = ImageEnhance.Brightness(img)
-    factor = 2
-    enhancer.enhance(factor)
+    return ImageEnhance.Brightness(img).enhance(2)
 
 
 def rotate_image(image, angle):
