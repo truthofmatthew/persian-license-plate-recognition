@@ -24,6 +24,12 @@ from plpr import synth
 from plpr.labels import CHAR_CLASSES
 
 
+def write_data_yaml(out: Path, names: list[str]) -> None:
+    lines = [f"path: {out.resolve()}", "train: images/train", "val: images/val", f"nc: {len(names)}", "names:"]
+    lines += [f"  {i}: {name!r}" for i, name in enumerate(names)]
+    (out / "data.yaml").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
 def write_yolo(out: Path, kind: str, n: int, val: float, seed: int) -> None:
     rng = np.random.default_rng(seed)
     names = [code for code, _ in CHAR_CLASSES] if kind == "chars" else ["IR_License_Plate"]
@@ -37,9 +43,7 @@ def write_yolo(out: Path, kind: str, n: int, val: float, seed: int) -> None:
         cv2.imwrite(str(out / "images" / split / f"{stem}.jpg"), s.image, [cv2.IMWRITE_JPEG_QUALITY, 92])
         h, w = s.image.shape[:2]
         (out / "labels" / split / f"{stem}.txt").write_text(synth.yolo_lines(s.boxes, s.classes, w, h))
-    lines = [f"path: {out.resolve()}", "train: images/train", "val: images/val", f"nc: {len(names)}", "names:"]
-    lines += [f"  {i}: {name!r}" for i, name in enumerate(names)]
-    (out / "data.yaml").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    write_data_yaml(out, names)
     print(f"{kind}: {n - n_val} train + {n_val} val -> {out}")
 
 
