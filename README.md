@@ -163,3 +163,10 @@ The code is GPL-3.0 (see [LICENSE](LICENSE)).
 - **Datasets:** [IR-LPR](https://github.com/mut-deep/IR-LPR), [Iranis-dataset](https://github.com/alitourani/Iranis-dataset) and [ILPR](https://github.com/amirmgh1375/iranian-license-plate-recognition).
 - **Learning resources:** [Mahdi Rahmani](https://github.com/MahdiRahmani) and [Meftun AKARSU](https://github.com/mftnakrsu), whose repositories this project learned from.
 - **Contributors:** everyone who opened issues and sent pull requests to v1.
+
+## Made by Matthew Truth
+
+I'm a product lead and designer who builds what he designs. I share open tools for product people and for Persian and right-to-left design.
+
+Follow me on GitHub: https://github.com/truthofmatthew
+Read my studies: https://truthofmatthew.substack.com
