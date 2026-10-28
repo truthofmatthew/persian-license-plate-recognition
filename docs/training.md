@@ -20,6 +20,8 @@ then applies perspective, blur, noise, brightness/contrast, glare, night darkeni
 military, diplomatic, free zone). Class order is `plpr/labels.py` `CHAR_CLASSES`, which the engine assumes.
 Disk use is about 18 KB per crop and 70 KB per scene.
 
+For 3D renders (cars, embossed characters, real lighting) with automatic boxes, see [blender.md](blender.md).
+
 Synthetic data alone will not match the real plate font, dirt or lighting. Mix in real labelled plates:
 
 ```bash

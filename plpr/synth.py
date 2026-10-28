@@ -43,6 +43,8 @@ BODY_SLOTS = [(68, 55), (128, 55), (190, 76), (272, 55), (333, 55), (394, 55)]
 REGION_SLOTS = [(474, 50), (530, 50)]
 BODY_Y, BODY_H = 112, 82        # baseline y and height of a full-height digit
 REGION_Y, REGION_H = 120, 66
+# (x, width, baseline y, height) for the 8 symbols in plate order
+SLOTS = [(x, w, BODY_Y, BODY_H) for x, w in BODY_SLOTS] + [(x, w, REGION_Y, REGION_H) for x, w in REGION_SLOTS]
 
 
 @dataclass
@@ -60,10 +62,15 @@ def _template(name: str) -> np.ndarray:
     return cv2.imread(str(TEMPLATE_DIR / f"template-{name}.png"), cv2.IMREAD_UNCHANGED)
 
 
+def glyph_text(code: str) -> str:
+    """The characters to draw for one class code, e.g. "4" -> "۴", "D" -> "د"."""
+    return GLYPH.get(code, CODE_TO_PERSIAN[code] if not code.isdigit() else FA_DIGITS[int(code)])
+
+
 @cache
 def _glyph(code: str) -> tuple[np.ndarray, int]:
     """Ink mask of one symbol at a fixed font size, and its top offset from the baseline."""
-    text = GLYPH.get(code, CODE_TO_PERSIAN[code] if not code.isdigit() else FA_DIGITS[int(code)])
+    text = glyph_text(code)
     font = ImageFont.truetype(str(FONT), 120)
     im = Image.new("L", (400, 300))
     ImageDraw.Draw(im).text((50, 200), text, font=font, fill=255, anchor="ls")
@@ -95,10 +102,8 @@ def render_plate(codes: list[str], template: str = "base", rng: np.random.Genera
     img = _template(template).copy()
     ink = np.array((20, 20, 20) if template in DARK_INK else (245, 245, 245), np.float32)
     boxes = []
-    slots = [(s, BODY_Y, BODY_H) for s in BODY_SLOTS[:2]] + [(BODY_SLOTS[2], BODY_Y, BODY_H)] + \
-            [(s, BODY_Y, BODY_H) for s in BODY_SLOTS[3:]] + [(s, REGION_Y, REGION_H) for s in REGION_SLOTS]
     jitter = rng.uniform(-3, 3, (8, 2))
-    for code, ((x, w), base_y, h), (jx, jy) in zip(codes, slots, jitter):
+    for code, (x, w, base_y, h), (jx, jy) in zip(codes, SLOTS, jitter):
         mask, top = _glyph(code)
         s = h / _digit_height()
         gh, gw = max(1, round(mask.shape[0] * s)), max(1, round(mask.shape[1] * s * 0.95))

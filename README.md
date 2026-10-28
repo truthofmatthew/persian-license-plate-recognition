@@ -24,7 +24,7 @@ All screenshots use made-up residents.
 | API server | `server/` | FastAPI: read endpoint, residents, entries, review queue, signed webhooks, API keys with roles, data retention |
 | Edge agent | `server/agent.py` | Reads an RTSP camera, webcam or video, posts one event per car, buffers while offline, can call a barrier relay |
 | Docker | `docker/` | API + agent + go2rtc (RTSP to WebRTC/HLS for browsers) + optional Postgres |
-| Training and evaluation | `scripts/`, `trainer/` | ONNX export, synthetic plate generator, benchmark, INT8 quantization, training on newer YOLO models |
+| Training and evaluation | `scripts/`, `trainer/` | ONNX export, synthetic plate generator, [Blender 3D renders with automatic boxes](docs/blender.md), benchmark, INT8 quantization, training on newer YOLO models |
 
 ## Quick start
 
