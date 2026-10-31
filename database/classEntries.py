@@ -26,7 +26,8 @@ class Entries:
         return self.eDate
 
     def getPlatePic(self):
-        return 'temp/{}_{}_{}.jpg'.format(self.plateNum, self.eTime, self.eDate)
+        safe_time = self.eTime.replace(":", "-")
+        return f'temp/{self.plateNum}_{safe_time}_{self.eDate}.jpg'
 
     def getCharPercent(self):
         return "{}%".format(self.charPercent)
