@@ -83,8 +83,12 @@ def db_entries_time(number, charConfAvg, plateConfAvg, croppedPlate, status, ext
         return  # same plate logged less than a minute ago
     display_time = time.strftime("%H:%M:%S")
     display_date = time.strftime("%Y-%m-%d")
+    safe_time = display_time.replace(":", "-")
     os.makedirs('temp', exist_ok=True)  # same name Entries.getPlatePic() builds
-    croppedPlate.save(f'temp/{number}_{display_time}_{display_date}.jpg', format='jpg')
+    try:
+        croppedPlate.save(f'temp/{number}_{safe_time}_{display_date}.jpg', format='jpg')
+    except Exception as e:
+        print(f"[Plate save error]: {e}")
     insertEntries(Entries(plateConfAvg, charConfAvg, display_date, display_time, number, status))
     if external_service_data:
         send_data_to_external_service(external_service_data)

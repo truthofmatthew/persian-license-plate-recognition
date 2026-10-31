@@ -7,7 +7,9 @@ plpr.Engine (ONNX Runtime, no PyTorch). Settings come from config.ini (see confi
 """
 
 import functools
+import os
 import sys
+import threading
 import time
 import warnings
 from pathlib import Path
@@ -116,6 +118,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.scene.setSceneRect(0, 0, 960, 540)
         self.gv.setScene(self.scene)
         self.gv.setRenderHints(QPainter.Antialiasing)
+        self.gv.fitInView(self.scene.sceneRect())
 
     def refresh_table(self, plateNum=''):
 
@@ -262,6 +265,39 @@ class MainWindow(QtWidgets.QMainWindow):
         self.Worker1.stop()
 
 
+class FreshFrameReader:
+    """Continuously grabs frames in a background thread to prevent RTSP buffer lag and freeze."""
+
+    def __init__(self, capture):
+        self.capture = capture
+        self.frame = None
+        self.ret = False
+        self.running = True
+        self.lock = threading.Lock()
+        self.thread = threading.Thread(target=self._reader, daemon=True)
+        self.thread.start()
+
+    def _reader(self):
+        while self.running:
+            try:
+                ret, frame = self.capture.read()
+                if not ret:
+                    time.sleep(0.01)
+                    continue
+                with self.lock:
+                    self.ret = ret
+                    self.frame = frame
+            except Exception:
+                time.sleep(0.02)
+
+    def read(self):
+        with self.lock:
+            return self.ret, self.frame
+
+    def stop(self):
+        self.running = False
+
+
 class Worker1(QThread):
     """
     Worker thread that grabs frames, reads plates on every Nth frame and tracks them,
@@ -274,28 +310,51 @@ class Worker1(QThread):
 
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.reader = None
 
     def run(self):
         self.prepare_capture()
         while self.ThreadActive:
-            success, frame = self.Capture.read()
-            if not success:
-                if params.source == 'video':
-                    break  # end of file
-                time.sleep(0.05)
-                continue
-            self.process_frame(frame)
-            self.manageFrameRate()
+            try:
+                if self.reader is not None:
+                    success, frame = self.reader.read()
+                else:
+                    success, frame = self.Capture.read()
+
+                if not success or frame is None:
+                    if params.source == 'video':
+                        break  # end of file
+                    time.sleep(0.02)
+                    continue
+
+                self.process_frame(frame)
+                self.manageFrameRate()
+            except Exception as e:
+                print(f"[Worker1 loop error]: {e}")
+                time.sleep(0.03)
+
+        if self.reader is not None:
+            self.reader.stop()
+            self.reader = None
         self.Capture.release()
         self.finish(self.tracker.flush())  # car still in view when the video ended or Stop was pressed
 
     def prepare_capture(self):
-        self.prev_frame_time = 0
+        self.prev_frame_time = time.time()
         self.ThreadActive = True
         self.reads = []
         self.bestCrops = {}  # track id -> (crop QImage, PlateRead) with the highest char confidence
         self.tracker = PlateTracker(min_hits=params.min_hits)
-        self.Capture = cv2.VideoCapture(capture_source(params))
+        src = capture_source(params)
+
+        if isinstance(src, str) and src.startswith("rtsp"):
+            os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "rtsp_transport;tcp"
+            self.Capture = cv2.VideoCapture(src, cv2.CAP_FFMPEG)
+            self.reader = FreshFrameReader(self.Capture)
+        else:
+            self.Capture = cv2.VideoCapture(src)
+            self.reader = None
+
         self.adjust_video_position()
 
     def adjust_video_position(self):
@@ -317,10 +376,15 @@ class Worker1(QThread):
 
     def track(self, frame, reads):
         crops = {}
+        h, w = frame.shape[:2]
         for r in reads:
             if r.plate is None:  # not a complete 8-symbol plate
                 continue
             x1, y1, x2, y2 = r.box
+            x1, x2 = max(0, min(w - 1, x1)), max(0, min(w, x2))
+            y1, y2 = max(0, min(h - 1, y1)), max(0, min(h, y2))
+            if x2 <= x1 or y2 <= y1:
+                continue
             crop = to_qimage(cv2.resize(frame[y1:y2, x1:x2], (600, 132)))
             crops[r.box] = (crop, r)
             self.plateDataUpdate.emit(crop, r.plate, round(r.char_conf * 100), round(r.plate_conf * 100))
@@ -357,6 +421,8 @@ class Worker1(QThread):
 
     def stop(self):
         self.ThreadActive = False
+        if self.reader is not None:
+            self.reader.stop()
 
 
 class Worker2(QThread):
